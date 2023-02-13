@@ -1,8 +1,11 @@
-# Solution Visual Studio de départ (SFML)
+# Laboratoire 05 (SOLUTION)
 
-Ce dépôt contient une solution Visual Studio 2022 dans laquelle le module réseau
-de SFML a été pré-installé. Cette solution comprend deux projets: un pour le client et un
-pour le serveur.
+Ce dépôt implémente la solution du laboratoire 05 du cours, dans lequel
+vous deviez créer le serveur et le client d'une application d'annuaire
+en UDP.
+
+La solution Visual Studio 2022 comprend deux projets: un pour
+le client et un pour le serveur.
 
 ## Pour démarrer les deux projets en même temps
 
