@@ -34,6 +34,27 @@ int main()
     cout << "Annuaire des enseignants d'informatique" << endl;
     cout << "===========" << endl << endl;
 
+    paquetSortant << "COUNT";
+    socket.send(paquetSortant, adresseServeur, portServeur);
+    paquetSortant.clear();
+
+    if (selecteur.wait(sf::seconds(5))) {
+		socket.receive(paquetEntrant, adressePaquetEntrant, portPaquetEntrant);
+
+		paquetEntrant >> codeResultat;
+        if (codeResultat == "OK") {
+			sf::Int16 nombreContacts;
+			paquetEntrant >> nombreContacts;
+			cout << "Le serveur contient " << nombreContacts << " contacts." << endl;
+		}
+        else {
+			cout << "Erreur inconnue." << endl;
+		}
+	}
+    else {
+		cout << "Le nombre de contacts sur le serveur n'a pas pu être récupéré." << endl;
+	}
+
     cout << "Entrer le prénom rercherché: ";
     getline(cin, prenomRecherche);
 

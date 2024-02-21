@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    const int NOMBRE_CONTACTS = 27;
+    const int NOMBRE_CONTACTS = 23;
 
     Contact contacts[NOMBRE_CONTACTS] = {
         Contact("Bergevin", "Luc", "5-21-125", 4607),
@@ -20,8 +20,6 @@ int main()
         Contact("Deschamps", "Jacob", "5-21-113", 4609),
         Contact("Fortin", "Josianne", "5-21-117", 4592),
         Contact("Gagnon", "Julie", "5-21-113", 4595),
-        Contact("Giard", "Remy", "", 4666),
-        Contact("Gnagne", "Akpro Benjamin", "5-21-107", 4654),
         Contact("Guimond-Dufour", "Simon", "5-21-121", 4569),
         Contact("Huppe", "Alexandre", "5-21-105", 4596),
         Contact("Jaramillo", "Alexander", "5-21-111", 4598),
@@ -35,9 +33,7 @@ int main()
         Contact("Scheffler", "Olivier", "", 0),
         Contact("Slougui", "Lyes", "", 4461),
         Contact("St-Yves", "Andre", "5-21-105", 5321),
-        Contact("Taschereau", "Cedric", "", 4462),
-        Contact("Tremblay", "Micheline", "5-21-109", 4602),
-        Contact("Vigneux", "Richard", "5-21-107", 4601)
+        Contact("Taschereau", "Cedric", "", 4462)
     };
 
     sf::UdpSocket socket;
@@ -71,11 +67,7 @@ int main()
         socket.receive(paquetEntrant, adresseClient, portClient);
 
         paquetEntrant >> actionRequete;
-        if (actionRequete != "SEARCH") {
-            cout << adresseClient << " a envoyé une action invalide: " << actionRequete << endl;
-            paquetSortant << "INVALID_ACTION";
-        }
-        else {
+        if (actionRequete == "SEARCH") {
             paquetEntrant >> nomRequete >> prenomRequete;
 
             cout << adresseClient << " veut avoir les informations sur le contact: " << prenomRequete << " " << nomRequete << endl;
@@ -92,6 +84,14 @@ int main()
                     << contacts[idContact].getBureau()
                     << sf::Int16(contacts[idContact].getExtensionTelephonique());
             }
+        }
+        else if (actionRequete == "COUNT") {
+            cout << adresseClient << " veut connaître le nombre de contacts sur le serveur." << endl;
+            paquetSortant << "OK" << sf::Int16(NOMBRE_CONTACTS);
+        }
+        else {
+            cout << adresseClient << " a envoyé une action invalide: " << actionRequete << endl;
+            paquetSortant << "INVALID_ACTION";
         }
 
         socket.send(paquetSortant, adresseClient, portClient);
