@@ -26,7 +26,10 @@ int main()
 
     setlocale(LC_ALL, "");
 
-    socket.bind(sf::Socket::AnyPort);
+    if (socket.bind(sf::Socket::AnyPort) != sf::Socket::Done) {
+		cout << "Une erreur est survenue lors de la création du socket." << endl;
+		return 1;
+	}
     portClient = socket.getLocalPort();
 
     selecteur.add(socket);
